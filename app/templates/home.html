@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Manage Prompts</h1>
+<form method="POST" action="/add">
+    <input type="text" name="title" placeholder="Title" required>
+    <textarea name="content" placeholder="Enter your prompt" required></textarea>
+    <button type="submit">Save</button>
+</form>
+<div>
+    <h2>Existing Prompts</h2>
+    <ul>
+        {% for prompt in prompts %}
+        <li>
+            <strong>{{ prompt.title }}</strong>
+            <a href="/delete/{{ prompt.id }}">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
