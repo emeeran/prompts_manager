@@ -35,3 +35,20 @@ def delete_prompt(id):
     else:
         flash("Unauthorized action.", "danger")
     return redirect(url_for('main.home'))
+
+@main.route('/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_prompt(id):
+    prompt = Prompt.query.get_or_404(id)
+    if prompt.user_id != current_user.id:
+        flash('Unauthorized action.', 'danger')
+        return redirect(url_for('main.home'))
+
+    if request.method == 'POST':
+        prompt.title = request.form['title']
+        prompt.content = request.form['content']
+        db.session.commit()
+        flash('Prompt updated!', 'success')
+        return redirect(url_for('main.home'))
+
+    return render_template('edit_prompt.html', prompt=prompt)
