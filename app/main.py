@@ -8,7 +8,9 @@ main = Blueprint('main', __name__)
 @main.route('/')
 @login_required
 def home():
-    prompts = Prompt.query.filter_by(user_id=current_user.id).all()
+    prompts = Prompt.query.filter_by(user_id=current_user.id)\
+        .order_by(Prompt.created_at.desc())\
+        .all()
     return render_template('home.html', prompts=prompts)
 
 @main.route('/add', methods=['POST'])

@@ -23,6 +23,8 @@ def register():
             return redirect(url_for('auth.register'))
 
         new_user = User(
+            verification_token = secrets.token_urlsafe(32),
+            is_verified=False,
             email=email,
             password_hash=generate_password_hash(password, method='pbkdf2:sha256')
         )
